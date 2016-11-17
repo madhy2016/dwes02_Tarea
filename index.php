@@ -10,7 +10,7 @@ and open the template in the editor.
 	<meta charset="utf-8" />
 	<title>dwes02_Tarea</title>
 	<style type="text/css">
-
+            
 	</style>
 </head>
 
@@ -81,7 +81,7 @@ and open the template in the editor.
 	</section>
 
 	<footer>
-		<p>Copyleft A Carballeira Ourense 2016</p>
+		<p> Copyleft A Carballeira Ourense 2016</p>
 	</footer>
 </body>
 	<?php

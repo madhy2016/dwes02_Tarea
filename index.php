@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="es">
+
+<head>
+	<meta charset="utf-8" />
+	<title>dwes02_Tarea</title>
+	<style type="text/css">
+
+	</style>
+</head>
+
+<body>
+	<header>
+		<h2>Tarea obligatoria para la unidad 2</h2>
+		<h3>Gómez Vázquez, Juan Jose</h3>
+	</header>
+	
+	<section>
+		<h3>Lista de la compra</h3>
+		<?php
+			// Se lanza cuando se pulsa el botón
+			if(isset($_POST['boton'])){
+				// Si se recibeN artículos listados previamente se añaden al array de la lista
+				if(isset($_POST['lista'])){
+					$lista=$_POST['lista'];	
+				}
+				//Leer valores enviados desde el formulario
+				$clave=$_POST['articulo'];
+	 			$valor=$_POST['cantidad'];
+
+	 			if (empty($clave)){ // Intentando enviar un artículo sin nombre
+	 				echo "<p>Debe introducir un nombre para el artículo</p>";
+
+	 			}else{
+
+	 				if(isset($lista) && array_key_exists($clave, $lista)){ //El articulo ya está en la lista (borrar o sumar)
+	 					if (empty($valor)){ // esta vacío el valor, borrar
+	 						unset($lista[$clave]);
+	 					}else{ //sumar
+	 						$lista[$clave] += (int)$valor;
+	 					}
+	 				}else{ //Intorducimos nuevo valor. Convertimos en integer el valor, que será numérico para evitar otros caracteres indeseados
+
+	 					$lista[$clave] = (int)$valor;
+	 				}
+
+	 				listar($lista);
+	 			}
+			}
+		?>
+			<!-- Aquí se muestra el formulario. -->
+			<form name="formulario" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+				<table>
+					<th colspan="2"><h3>Añadir/Quitar de la lista</h3></th>
+					<tr>
+						<td><label for="articulo">Artículo:</label></td>
+						<td><input type="text" name="articulo" /></td>
+					</tr>
+					<tr>
+						<td><label for="cantidad">Cantidad:</label></td>
+						<td><input type="text" name="cantidad" /></td>
+					</tr>
+						<?php
+							// Aqui metemos el campo input oculto
+							if(isset($lista)){
+								foreach($lista as $c => $v){
+			                    	echo "<input type='hidden' name='lista[$c]' value='$v'><br/>";
+			                	}
+							}			                
+			            ?>
+					<tr>
+						<td colspan="2" style="text-align: center;"><button class="submit" type="submit" name="boton">Añadir</button></td>
+					</tr>
+				</table>
+			</form>
+	</section>
+
+	<footer>
+		<p>Copyleft A Carballeira Ourense 2016</p>
+	</footer>
+</body>
+	<?php
+		// Función que presenta la lista de artículos
+		function listar($a){
+			//Esta función ordena (alfabéticamente por artículo) el arraay y lo muestra
+			ksort($a);
+			echo "<table id='lista'>";
+			echo "<th>Artículos</th><th>Unidades</th>";
+			foreach($a as $articulo => $cantidad){				
+				echo "<tr>";
+				echo "<td>$articulo</td><td>$cantidad Unidades</td>";
+				echo "</tr>";
+			}
+			echo "</table>";
+		}
+	 ?>
+</html>
